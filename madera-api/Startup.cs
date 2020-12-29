@@ -1,3 +1,4 @@
+using AutoMapper;
 using madera_api.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,8 @@ namespace madera_api
         {
             services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("UserList"));
             services.AddControllers();
+            
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

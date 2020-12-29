@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace madera_api.Models
+namespace madera_api.DTO
 {
-    public class User
+    public class UserDTO
     {
         public int Id { get; set; }
 

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using madera_api.Models;
+using AutoMapper;
+using madera_api.DTO;
+using AutoMapper.QueryableExtensions;
 
 namespace madera_api.Controllers
 {
@@ -14,22 +17,31 @@ namespace madera_api.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserContext _context;
+        private readonly IMapper _mapper;
 
-        public UserController(UserContext context)
+        public UserController(UserContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            //return de usersDTO ne fonctionne pas, sotant une erreur de convert entre Ienumerable et actionResult
+            //var users = await _context.Users.ToListAsync();
+            //var usersDTO = _mapper.Map<IEnumerable<UserDTO>>(users);
+
+            //on utilise donc le ProjectTo pour éviter l'erreur de convertion entre IEnumerable et actionresult 
+            var usersDTO = await _context.Users.ProjectTo<UserDTO>(_mapper.ConfigurationProvider).ToListAsync();
+
+            return usersDTO;
         }
 
         // GET: api/User/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -38,7 +50,7 @@ namespace madera_api.Controllers
                 return NotFound();
             }
 
-            return user;
+            return _mapper.Map<UserDTO>(user);
         }
 
         // PUT: api/User/5
