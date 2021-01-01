@@ -9,6 +9,8 @@ using madera_api.Models;
 using AutoMapper;
 using madera_api.DTO;
 using AutoMapper.QueryableExtensions;
+using madera_api.Data;
+using madera_api.Services;
 
 namespace madera_api.Controllers
 {
@@ -16,12 +18,12 @@ namespace madera_api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserContext _context;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public UserController(UserContext context, IMapper mapper)
+        public UserController(IUserService userService, IMapper mapper)
         {
-            _context = context;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -29,21 +31,17 @@ namespace madera_api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            //return de usersDTO ne fonctionne pas, sotant une erreur de convert entre Ienumerable et actionResult
-            //var users = await _context.Users.ToListAsync();
-            //var usersDTO = _mapper.Map<IEnumerable<UserDTO>>(users);
+            var users = await _userService.GetUsers();
+            var usersDTO = _mapper.Map<IList<UserDTO>>(users);
 
-            //on utilise donc le ProjectTo pour éviter l'erreur de convertion entre IEnumerable et actionresult 
-            var usersDTO = await _context.Users.ProjectTo<UserDTO>(_mapper.ConfigurationProvider).ToListAsync();
-
-            return usersDTO;
+            return usersDTO.ToList();
         }
 
         // GET: api/User/5
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userService.GetUserByID(id);
 
             if (user == null)
             {
@@ -53,36 +51,36 @@ namespace madera_api.Controllers
             return _mapper.Map<UserDTO>(user);
         }
 
-        // PUT: api/User/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, UserDTO user)
-        {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
+        //// PUT: api/User/5
+        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutUser(int id, UserDTO user)
+        //{
+        //    if (id != user.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _context.Entry(user).State = EntityState.Modified;
+        //    _context.Entry(user).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!UserExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         // POST: api/User
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -91,32 +89,30 @@ namespace madera_api.Controllers
         {
             var user = _mapper.Map<User>(userDTO);
 
-            _context.Users.Add(user);
-
-            await _context.SaveChangesAsync();
+            await _userService.CreateUser(user);
 
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, _mapper.Map<UserDTO>(user));
         }
 
-        // DELETE: api/User/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/User/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteUser(int id)
+        //{
+        //    var user = await _context.Users.FindAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+        //    _context.Users.Remove(user);
+        //    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.Id == id);
-        }
+        //private bool UserExists(int id)
+        //{
+        //    return _context.Users.Any(e => e.Id == id);
+        //}
     }
 }

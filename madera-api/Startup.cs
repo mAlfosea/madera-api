@@ -1,5 +1,7 @@
 using AutoMapper;
+using madera_api.Data;
 using madera_api.Models;
+using madera_api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,9 +31,12 @@ namespace madera_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("UserList"));
+            services.AddDbContext<DbMainContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("dbMaderaContext")));
+            //services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("UserList"));
             services.AddControllers();
-            
+
+            services.AddScoped<IUserService, UserService>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
