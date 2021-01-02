@@ -32,10 +32,10 @@ namespace madera_api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DbMainContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("dbMaderaContext")));
-            //services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("UserList"));
             services.AddControllers();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProjectService, ProjectService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
