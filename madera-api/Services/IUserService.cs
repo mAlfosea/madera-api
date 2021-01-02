@@ -14,5 +14,9 @@ namespace madera_api.Services
         public Task<User> GetUserByID(int userID);
 
         public Task CreateUser(User user);
+
+        public Task UpdateUser(User user);
+
+        public Task DeleteUser(User userID);
     }
 }

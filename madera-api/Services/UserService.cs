@@ -33,5 +33,16 @@ namespace madera_api.Services
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync(true);
         }
+
+        public async Task UpdateUser(User user)
+        {
+            await _context.SaveChangesAsync(true);
+        }
+
+        public async Task DeleteUser(User user)
+        {
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync(true);
+        }
     }
 }

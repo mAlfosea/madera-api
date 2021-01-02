@@ -51,36 +51,28 @@ namespace madera_api.Controllers
             return _mapper.Map<UserDTO>(user);
         }
 
-        //// PUT: api/User/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutUser(int id, UserDTO user)
-        //{
-        //    if (id != user.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        // PUT: api/User/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUser(int id, UserDTO user)
+        {
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
 
-        //    _context.Entry(user).State = EntityState.Modified;
+            User dbUser = await _userService.GetUserByID(id);
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!UserExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            if (dbUser == null)
+            {
+                return NotFound();
+            }
 
-        //    return NoContent();
-        //}
+            _mapper.Map(user, dbUser);
+
+            await _userService.UpdateUser(dbUser);
+
+            return NoContent();
+        }
 
         // POST: api/User
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -94,25 +86,20 @@ namespace madera_api.Controllers
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, _mapper.Map<UserDTO>(user));
         }
 
-        //// DELETE: api/User/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteUser(int id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // DELETE: api/User/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            User dbUser = await _userService.GetUserByID(id);
 
-        //    _context.Users.Remove(user);
-        //    await _context.SaveChangesAsync();
+            if (dbUser == null)
+            {
+                return NotFound();
+            }
 
-        //    return NoContent();
-        //}
+            await _userService.DeleteUser(dbUser);
 
-        //private bool UserExists(int id)
-        //{
-        //    return _context.Users.Any(e => e.Id == id);
-        //}
+            return NoContent();
+        }
     }
 }
