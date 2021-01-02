@@ -29,12 +29,11 @@ namespace madera_api.Controllers
 
         // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
+        public async Task<ActionResult<IList<UserDTO>>> GetUsers()
         {
             var users = await _userService.GetUsers();
-            var usersDTO = _mapper.Map<IList<UserDTO>>(users);
 
-            return usersDTO.ToList();
+            return users.ToList();
         }
 
         // GET: api/User/5
@@ -48,7 +47,7 @@ namespace madera_api.Controllers
                 return NotFound();
             }
 
-            return _mapper.Map<UserDTO>(user);
+            return user;
         }
 
         // PUT: api/User/5
@@ -60,44 +59,35 @@ namespace madera_api.Controllers
                 return BadRequest();
             }
 
-            User dbUser = await _userService.GetUserByID(id);
+            var updatedUser = await _userService.UpdateUser(id, user);
 
-            if (dbUser == null)
+            if (updatedUser == null)
             {
                 return NotFound();
             }
-
-            _mapper.Map(user, dbUser);
-
-            await _userService.UpdateUser(dbUser);
 
             return NoContent();
         }
 
         // POST: api/User
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<UserDTO>> PostUser(UserDTO userDTO)
         {
-            var user = _mapper.Map<User>(userDTO);
+            await _userService.CreateUser(userDTO);
 
-            await _userService.CreateUser(user);
-
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, _mapper.Map<UserDTO>(user));
+            return userDTO;
         }
 
         // DELETE: api/User/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            User dbUser = await _userService.GetUserByID(id);
+            var deletedUser = await _userService.DeleteUser(id);
 
-            if (dbUser == null)
+            if (deletedUser == null)
             {
                 return NotFound();
             }
-
-            await _userService.DeleteUser(dbUser);
 
             return NoContent();
         }

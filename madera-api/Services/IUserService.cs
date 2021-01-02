@@ -1,5 +1,6 @@
 ﻿using madera_api.DTO;
 using madera_api.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace madera_api.Services
 {
     public interface IUserService
     {
-        public Task<IList<User>> GetUsers();
+        public Task<IList<UserDTO>> GetUsers();
 
-        public Task<User> GetUserByID(int userID);
+        public Task<UserDTO> GetUserByID(int userID);
 
-        public Task CreateUser(User user);
+        public Task CreateUser(UserDTO userDTO);
 
-        public Task UpdateUser(User user);
+        public Task<UserDTO> UpdateUser(int id, UserDTO user);
 
-        public Task DeleteUser(User userID);
+        public Task<UserDTO> DeleteUser(int userID);
     }
 }
