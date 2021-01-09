@@ -29,6 +29,11 @@ namespace madera_api.Models
         [MaxLength(100)]
         public string Email { get; set; }
 
+        [Column("password")]
+        [Required]
+        [MaxLength(100)]
+        public string Password { get; set; }
+
         [Column("phone")]
         [MaxLength(100)]
         public string Phone { get; set; }

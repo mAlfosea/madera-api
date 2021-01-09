@@ -44,6 +44,8 @@ namespace madera_api.Services
         public async Task CreateUser(UserDTO userDTO)
         {
             var user = _mapper.Map<User>(userDTO);
+            user.Password = "1234";
+
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync(true);
 
