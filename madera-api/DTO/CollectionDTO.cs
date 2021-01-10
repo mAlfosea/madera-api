@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace madera_api.DTO
 {
-    public class ProjectDTO
+    public class CollectionDTO
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public UserDTO Client { get; set; }
-
-        public UserDTO Commercial { get; set; }
+        public ICollection<Module> Modules { get; set; }
     }
 }

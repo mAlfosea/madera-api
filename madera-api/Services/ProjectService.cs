@@ -23,14 +23,14 @@ namespace madera_api.Services
 
         public async Task<IList<ProjectDTO>> GetProjects()
         {
-            var projects = await _context.Projects.Include(p => p.Client).ToListAsync();
+            var projects = await _context.Project.Include(p => p.Client).ToListAsync();
             var projectsDTO = _mapper.Map<IList<ProjectDTO>>(projects);
             return projectsDTO.ToList();
         }
 
         public async Task<ProjectDTO> GetProjectByID(int Id)
         {
-            var project = await _context.Projects.Include(p => p.Client).SingleOrDefaultAsync(i => i.Id == Id);
+            var project = await _context.Project.Include(p => p.Client).SingleOrDefaultAsync(i => i.Id == Id);
 
             if (project == null)
             {
@@ -43,11 +43,11 @@ namespace madera_api.Services
         public async Task CreateProject(ProjectDTO projectDTO)
         {
             var project = _mapper.Map<Project>(projectDTO);
-            var client = await _context.Users.FindAsync(projectDTO.Client.Id);
+            var client = await _context.User.FindAsync(projectDTO.Client.Id);
 
             project.Client = client;
 
-            await _context.Projects.AddAsync(project);
+            await _context.Project.AddAsync(project);
             await _context.SaveChangesAsync(true);
 
             _mapper.Map(project, projectDTO);
@@ -55,14 +55,14 @@ namespace madera_api.Services
 
         public async Task<ProjectDTO> DeleteProject(int projectID)
         {
-            var project = await _context.Projects.FindAsync(projectID);
+            var project = await _context.Project.FindAsync(projectID);
 
             if (project == null)
             {
                 return null;
             }
 
-            _context.Projects.Remove(project);
+            _context.Project.Remove(project);
             await _context.SaveChangesAsync(true);
 
             return _mapper.Map<ProjectDTO>(project);
@@ -70,9 +70,9 @@ namespace madera_api.Services
 
         public async Task<ProjectDTO> UpdateProject(int id, ProjectDTO projectDTO)
         {
-            var project = await _context.Projects.FindAsync(id);
+            var project = await _context.Project.FindAsync(id);
 
-            var client = await _context.Users.FindAsync(projectDTO.Client.Id);
+            var client = await _context.User.FindAsync(projectDTO.Client.Id);
 
             if (project == null || client == null)
             {

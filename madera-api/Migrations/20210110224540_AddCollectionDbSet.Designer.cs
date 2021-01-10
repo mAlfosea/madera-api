@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using madera_api.Data;
 
 namespace madera_api.Migrations
 {
     [DbContext(typeof(DbMainContext))]
-    partial class DbMainContextModelSnapshot : ModelSnapshot
+    [Migration("20210110224540_AddCollectionDbSet")]
+    partial class AddCollectionDbSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +66,7 @@ namespace madera_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Collection");
+                    b.ToTable("Collections");
                 });
 
             modelBuilder.Entity("madera_api.Models.Component", b =>
@@ -105,7 +107,7 @@ namespace madera_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Component");
+                    b.ToTable("Components");
                 });
 
             modelBuilder.Entity("madera_api.Models.Module", b =>
@@ -141,7 +143,7 @@ namespace madera_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Module");
+                    b.ToTable("Modules");
                 });
 
             modelBuilder.Entity("madera_api.Models.Project", b =>
@@ -169,7 +171,7 @@ namespace madera_api.Migrations
 
                     b.HasIndex("CommercialId");
 
-                    b.ToTable("Project");
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("madera_api.Models.User", b =>
@@ -218,7 +220,7 @@ namespace madera_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("CollectionModule", b =>

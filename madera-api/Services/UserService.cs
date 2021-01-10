@@ -24,14 +24,14 @@ namespace madera_api.Services
 
         public async Task<IList<UserDTO>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.User.ToListAsync();
             var usersDTO = _mapper.Map<IList<UserDTO>>(users);
             return usersDTO.ToList();
         }
 
         public async Task<UserDTO> GetUserByID(int userID)
         {
-            var user = await _context.Users.FindAsync(userID);
+            var user = await _context.User.FindAsync(userID);
 
             if (user == null)
             {
@@ -46,7 +46,7 @@ namespace madera_api.Services
             var user = _mapper.Map<User>(userDTO);
             user.Password = "1234";
 
-            await _context.Users.AddAsync(user);
+            await _context.User.AddAsync(user);
             await _context.SaveChangesAsync(true);
 
             _mapper.Map(user, userDTO);
@@ -54,7 +54,7 @@ namespace madera_api.Services
 
         public async Task<UserDTO> UpdateUser(int id, UserDTO userDTO)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.User.FindAsync(id);
 
             if (user == null)
             {
@@ -70,14 +70,14 @@ namespace madera_api.Services
 
         public async Task<UserDTO> DeleteUser(int userID)
         {
-            var user = await _context.Users.FindAsync(userID);
+            var user = await _context.User.FindAsync(userID);
 
             if (user == null)
             {
                 return null;
             }
 
-            _context.Users.Remove(user);
+            _context.User.Remove(user);
             await _context.SaveChangesAsync(true);
 
             return _mapper.Map<UserDTO>(user);

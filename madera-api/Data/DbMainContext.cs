@@ -14,7 +14,10 @@ namespace madera_api.Data
 
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Project> Projects { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Project> Project { get; set; }
+        public DbSet<Collection> Collection { get; set; }
+        public DbSet<Module> Module { get; set; }
+        public DbSet<Component> Component { get; set; }
     }
 }

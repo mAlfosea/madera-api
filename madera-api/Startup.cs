@@ -36,6 +36,7 @@ namespace madera_api
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<ICollectionService, CollectionService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }

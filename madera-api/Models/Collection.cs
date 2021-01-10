@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace madera_api.Models
 {
-    public class Project
+    public class Collection
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,12 +18,7 @@ namespace madera_api.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [Column("client")]
-        [Required]
-        public User Client { get; set; }
-
-        [Column("commercial")]
-        [Required]
-        public User Commercial { get; set; }
+        [Column("module")]
+        public ICollection<Module> Modules { get; set; }
     }
 }
