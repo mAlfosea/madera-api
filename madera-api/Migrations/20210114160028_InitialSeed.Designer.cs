@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using madera_api.Data;
 
 namespace madera_api.Migrations
 {
     [DbContext(typeof(DbMainContext))]
-    partial class DbMainContextModelSnapshot : ModelSnapshot
+    [Migration("20210114160028_InitialSeed")]
+    partial class InitialSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,70 +194,6 @@ namespace madera_api.Migrations
                     b.ToTable("Project");
                 });
 
-            modelBuilder.Entity("madera_api.Models.Proposal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int?>("CommercialId")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("CreationDate")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion")
-                        .HasColumnName("creation-date");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("name");
-
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnName("status");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommercialId");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("Proposal");
-                });
-
-            modelBuilder.Entity("madera_api.Models.ProposalModule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("ModuleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProposalId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ModuleId");
-
-                    b.HasIndex("ProposalId");
-
-                    b.ToTable("ProposalModule");
-                });
-
             modelBuilder.Entity("madera_api.Models.Step", b =>
                 {
                     b.Property<int>("Id")
@@ -416,40 +354,6 @@ namespace madera_api.Migrations
                     b.Navigation("Commercial");
                 });
 
-            modelBuilder.Entity("madera_api.Models.Proposal", b =>
-                {
-                    b.HasOne("madera_api.Models.User", "Commercial")
-                        .WithMany()
-                        .HasForeignKey("CommercialId");
-
-                    b.HasOne("madera_api.Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
-
-                    b.Navigation("Commercial");
-
-                    b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("madera_api.Models.ProposalModule", b =>
-                {
-                    b.HasOne("madera_api.Models.Module", "Module")
-                        .WithMany("ProposalModules")
-                        .HasForeignKey("ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("madera_api.Models.Proposal", "Proposal")
-                        .WithMany("ProposalModules")
-                        .HasForeignKey("ProposalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Module");
-
-                    b.Navigation("Proposal");
-                });
-
             modelBuilder.Entity("madera_api.Models.StepProject", b =>
                 {
                     b.HasOne("madera_api.Models.Payment", "Payment")
@@ -477,11 +381,6 @@ namespace madera_api.Migrations
                     b.Navigation("Step");
                 });
 
-            modelBuilder.Entity("madera_api.Models.Module", b =>
-                {
-                    b.Navigation("ProposalModules");
-                });
-
             modelBuilder.Entity("madera_api.Models.Payment", b =>
                 {
                     b.Navigation("StepProjects");
@@ -490,11 +389,6 @@ namespace madera_api.Migrations
             modelBuilder.Entity("madera_api.Models.Project", b =>
                 {
                     b.Navigation("StepProjects");
-                });
-
-            modelBuilder.Entity("madera_api.Models.Proposal", b =>
-                {
-                    b.Navigation("ProposalModules");
                 });
 
             modelBuilder.Entity("madera_api.Models.Step", b =>

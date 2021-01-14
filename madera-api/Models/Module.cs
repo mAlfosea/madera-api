@@ -36,5 +36,7 @@ namespace madera_api.Models
         public virtual ICollection<Collection> Collections { get; set; }
 
         public virtual ICollection<Component> Components { get; set; }
+
+        public List<ProposalModule> ProposalModules { get; set; }
     }
 }

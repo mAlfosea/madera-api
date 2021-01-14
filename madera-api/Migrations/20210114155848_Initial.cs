@@ -2,7 +2,7 @@
 
 namespace madera_api.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,6 +50,34 @@ namespace madera_api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Module", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    amount = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payment", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Step",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    label = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    percent = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Step", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,59 +174,35 @@ namespace madera_api.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Collection",
-                columns: new[] { "Id", "name" },
-                values: new object[,]
+            migrationBuilder.CreateTable(
+                name: "StepProject",
+                columns: table => new
                 {
-                    { 1, "Printemps" },
-                    { 2, "Eté" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Component",
-                columns: new[] { "Id", "name", "nature", "price", "trait", "unite" },
-                values: new object[,]
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
+                    StepId = table.Column<int>(type: "int", nullable: false),
+                    PaymentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
                 {
-                    { 1, "Vis", "Vis", 15.0, "Fer", "Kg" },
-                    { 2, "Boulon", "Boulon", 8.0, "Fer", "Kg" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Module",
-                columns: new[] { "Id", "name", "nature", "trait", "unite" },
-                values: new object[,]
-                {
-                    { 1, "Toit en bois d'Erable", "Toit", "Bois", "M²" },
-                    { 2, "Mur en bois d'Erable", "Mur", "Bois", "M²" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "User",
-                columns: new[] { "Id", "civility", "email", "first_name", "last_name", "password", "phone", "role" },
-                values: new object[,]
-                {
-                    { 1, 1, "francis@madera.fr", "Francis", "Client", "1234", "", 1 },
-                    { 2, 1, "roger@madera.fr", "Roger", "Commercial", "1234", "", 2 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "CollectionModule",
-                columns: new[] { "CollectionsId", "ModulesId" },
-                values: new object[,]
-                {
-                    { 1, 1 },
-                    { 1, 2 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "ComponentModule",
-                columns: new[] { "ComponentsId", "ModulesId" },
-                values: new object[,]
-                {
-                    { 1, 1 },
-                    { 2, 1 },
-                    { 1, 2 }
+                    table.PrimaryKey("PK_StepProject", x => new { x.ProjectId, x.StepId, x.PaymentId });
+                    table.ForeignKey(
+                        name: "FK_StepProject_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StepProject_Project_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Project",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StepProject_Step_StepId",
+                        column: x => x.StepId,
+                        principalTable: "Step",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -220,6 +224,16 @@ namespace madera_api.Migrations
                 name: "IX_Project_CommercialId",
                 table: "Project",
                 column: "CommercialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StepProject_PaymentId",
+                table: "StepProject",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StepProject_StepId",
+                table: "StepProject",
+                column: "StepId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -231,7 +245,7 @@ namespace madera_api.Migrations
                 name: "ComponentModule");
 
             migrationBuilder.DropTable(
-                name: "Project");
+                name: "StepProject");
 
             migrationBuilder.DropTable(
                 name: "Collection");
@@ -241,6 +255,15 @@ namespace madera_api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Module");
+
+            migrationBuilder.DropTable(
+                name: "Payment");
+
+            migrationBuilder.DropTable(
+                name: "Project");
+
+            migrationBuilder.DropTable(
+                name: "Step");
 
             migrationBuilder.DropTable(
                 name: "User");

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using madera_api.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace madera_api.Models
 {
-    public class Project
+    public class Proposal
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,14 +19,23 @@ namespace madera_api.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [Column("client")]
+        [Column("project")]        
         [Required]
-        public User Client { get; set; }
+        public Project Project { get; set; }
 
         [Column("commercial")]
         [Required]
         public User Commercial { get; set; }
 
-        public List<StepProject> StepProjects { get; set; }
+        [Column("creation-date")]
+        [Timestamp]
+        [Required]
+        public byte[] CreationDate { get; set; }
+
+        [Column("status")]
+        [Required]
+        public ProposalEnum Status { get; set; }
+
+        public List<ProposalModule> ProposalModules { get; set; }
     }
 }

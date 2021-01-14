@@ -11,7 +11,6 @@ namespace madera_api.Data
     {
         public DbMainContext(DbContextOptions<DbMainContext> opt): base(opt)
         {
-
         }
 
         public DbSet<User> User { get; set; }
@@ -19,9 +18,44 @@ namespace madera_api.Data
         public DbSet<Collection> Collection { get; set; }
         public DbSet<Module> Module { get; set; }
         public DbSet<Component> Component { get; set; }
+        public DbSet<Step> Step { get; set; }
+        public DbSet<Payment> Payment { get; set; }
+        public DbSet<StepProject> StepProject { get; set; }
+        public DbSet<Proposal> Proposal { get; set; }
+        public DbSet<ProposalModule> ProposalModule { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<StepProject>()
+                .HasKey(t => new { t.ProjectId, t.StepId, t.PaymentId });
+
+            modelBuilder.Entity<StepProject>()
+            .HasOne(pt => pt.Project)
+            .WithMany(p => p.StepProjects)
+            .HasForeignKey(pt => pt.ProjectId);
+
+            modelBuilder.Entity<StepProject>()
+            .HasOne(pt => pt.Step)
+            .WithMany(p => p.StepProjects)
+            .HasForeignKey(pt => pt.StepId);
+
+            modelBuilder.Entity<StepProject>()
+            .HasOne(pt => pt.Payment)
+            .WithMany(p => p.StepProjects)
+            .HasForeignKey(pt => pt.PaymentId);
+
+
+            modelBuilder.Entity<ProposalModule>()
+            .HasOne(pt => pt.Proposal)
+            .WithMany(p => p.ProposalModules)
+            .HasForeignKey(pt => pt.ProposalId);
+
+            modelBuilder.Entity<ProposalModule>()
+            .HasOne(pt => pt.Module)
+            .WithMany(p => p.ProposalModules)
+            .HasForeignKey(pt => pt.ModuleId);
+
+
             var users = new[]
             {
                 new User
@@ -47,8 +81,10 @@ namespace madera_api.Data
                         Civility = Enums.CivilityEnum.MAN
                     }
             };
+            modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<User>().HasData(users);
 
-            var modules = new[]
+            /*var modules = new[]
             {
                 new Module
                 {
@@ -104,6 +140,47 @@ namespace madera_api.Data
                 }
             };
 
+            var projects = new[]
+            {
+                new Project
+                {
+                    Id = 1,
+                    Name = "Projet de Francis",
+                    ClientId = users[0].Id,
+                    CommercialId = users[1].Id,
+                }
+            };
+
+            var steps = new[]
+            {
+                new Step
+                {
+                    Id = 1,
+                    Label = "Phase de proposition",
+                    Percent = 0
+                }
+            };
+
+            var payments = new[]
+            {
+                new Payment
+                {
+                    Id = 1,
+                    IsPaid = true,
+                    Amount = 0
+                }
+            };
+
+            var stepProjects = new[]
+            {
+                new StepProject
+                {
+                    ProjectId = projects[0].Id,
+                    PaymentId = payments[0].Id,
+                    StepId = steps[0].Id
+                }
+            };
+
 
             modelBuilder.Entity<Collection>()
                 .HasMany<Module>(s => s.Modules)
@@ -122,6 +199,31 @@ namespace madera_api.Data
                     new { ModulesId = 2, ComponentsId = 1 }
                     ));
 
+            modelBuilder.Entity<StepProject>()
+                .HasKey(t => new { t.ProjectId, t.StepId, t.PaymentId });
+
+            modelBuilder.Entity<StepProject>()
+            .HasOne(pt => pt.Project)
+            .WithMany(p => p.StepProjects)
+            .HasForeignKey(pt => pt.ProjectId);
+
+            modelBuilder.Entity<StepProject>()
+            .HasOne(pt => pt.Step)
+            .WithMany(p => p.StepProjects)
+            .HasForeignKey(pt => pt.StepId);
+
+            modelBuilder.Entity<StepProject>()
+            .HasOne(pt => pt.Payment)
+            .WithMany(p => p.StepProjects)
+            .HasForeignKey(pt => pt.PaymentId);
+
+            modelBuilder.Entity<Project>()
+            .HasOne(pt => pt.Client).WithMany(c => c.ClientProjects).HasForeignKey(pt => pt.ClientId);
+
+            modelBuilder.Entity<Project>()
+            .HasOne(pt => pt.Commercial).WithMany(c => c.CommercialProjects).HasForeignKey(pt => pt.CommercialId);
+
+
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<User>().HasData(users);
 
@@ -133,6 +235,18 @@ namespace madera_api.Data
 
             modelBuilder.Entity<Component>().ToTable("Component");
             modelBuilder.Entity<Component>().HasData(components);
+
+            modelBuilder.Entity<Project>().ToTable("Project");
+            modelBuilder.Entity<Project>().HasData(projects);
+
+            /*modelBuilder.Entity<Payment>().ToTable("Payment");
+            modelBuilder.Entity<Payment>().HasData(payments);
+
+            modelBuilder.Entity<Step>().ToTable("Step");
+            modelBuilder.Entity<Step>().HasData(steps);
+
+            modelBuilder.Entity<StepProject>().ToTable("StepProject");
+            modelBuilder.Entity<StepProject>().HasData(stepProjects);*/
         }
     }
 }

@@ -10,8 +10,8 @@ using madera_api.Data;
 namespace madera_api.Migrations
 {
     [DbContext(typeof(DbMainContext))]
-    [Migration("20210114132717_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20210114164306_InitialSeed3")]
+    partial class InitialSeed3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,18 +34,6 @@ namespace madera_api.Migrations
                     b.HasIndex("ModulesId");
 
                     b.ToTable("CollectionModule");
-
-                    b.HasData(
-                        new
-                        {
-                            CollectionsId = 1,
-                            ModulesId = 1
-                        },
-                        new
-                        {
-                            CollectionsId = 1,
-                            ModulesId = 2
-                        });
                 });
 
             modelBuilder.Entity("ComponentModule", b =>
@@ -61,23 +49,6 @@ namespace madera_api.Migrations
                     b.HasIndex("ModulesId");
 
                     b.ToTable("ComponentModule");
-
-                    b.HasData(
-                        new
-                        {
-                            ComponentsId = 1,
-                            ModulesId = 1
-                        },
-                        new
-                        {
-                            ComponentsId = 2,
-                            ModulesId = 1
-                        },
-                        new
-                        {
-                            ComponentsId = 1,
-                            ModulesId = 2
-                        });
                 });
 
             modelBuilder.Entity("madera_api.Models.Collection", b =>
@@ -96,18 +67,6 @@ namespace madera_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Collection");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Printemps"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Eté"
-                        });
                 });
 
             modelBuilder.Entity("madera_api.Models.Component", b =>
@@ -149,26 +108,6 @@ namespace madera_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Component");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Vis",
-                            Nature = "Vis",
-                            Price = 15.0,
-                            Trait = "Fer",
-                            Unite = "Kg"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Boulon",
-                            Nature = "Boulon",
-                            Price = 8.0,
-                            Trait = "Fer",
-                            Unite = "Kg"
-                        });
                 });
 
             modelBuilder.Entity("madera_api.Models.Module", b =>
@@ -205,24 +144,26 @@ namespace madera_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Module");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Toit en bois d'Erable",
-                            Nature = "Toit",
-                            Trait = "Bois",
-                            Unite = "M²"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Mur en bois d'Erable",
-                            Nature = "Mur",
-                            Trait = "Bois",
-                            Unite = "M²"
-                        });
+            modelBuilder.Entity("madera_api.Models.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real")
+                        .HasColumnName("amount");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsPaid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("madera_api.Models.Project", b =>
@@ -251,6 +192,112 @@ namespace madera_api.Migrations
                     b.HasIndex("CommercialId");
 
                     b.ToTable("Project");
+                });
+
+            modelBuilder.Entity("madera_api.Models.Proposal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("CommercialId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("CreationDate")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnName("creation-date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("name");
+
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommercialId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Proposal");
+                });
+
+            modelBuilder.Entity("madera_api.Models.ProposalModule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProposalId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("ProposalId");
+
+                    b.ToTable("ProposalModule");
+                });
+
+            modelBuilder.Entity("madera_api.Models.Step", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("label");
+
+                    b.Property<int>("Percent")
+                        .HasColumnType("int")
+                        .HasColumnName("percent");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Step");
+                });
+
+            modelBuilder.Entity("madera_api.Models.StepProject", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StepId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectId", "StepId", "PaymentId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.HasIndex("StepId");
+
+                    b.ToTable("StepProject");
                 });
 
             modelBuilder.Entity("madera_api.Models.User", b =>
@@ -369,6 +416,92 @@ namespace madera_api.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Commercial");
+                });
+
+            modelBuilder.Entity("madera_api.Models.Proposal", b =>
+                {
+                    b.HasOne("madera_api.Models.User", "Commercial")
+                        .WithMany()
+                        .HasForeignKey("CommercialId");
+
+                    b.HasOne("madera_api.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId");
+
+                    b.Navigation("Commercial");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("madera_api.Models.ProposalModule", b =>
+                {
+                    b.HasOne("madera_api.Models.Module", "Module")
+                        .WithMany("ProposalModules")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("madera_api.Models.Proposal", "Proposal")
+                        .WithMany("ProposalModules")
+                        .HasForeignKey("ProposalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("Proposal");
+                });
+
+            modelBuilder.Entity("madera_api.Models.StepProject", b =>
+                {
+                    b.HasOne("madera_api.Models.Payment", "Payment")
+                        .WithMany("StepProjects")
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("madera_api.Models.Project", "Project")
+                        .WithMany("StepProjects")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("madera_api.Models.Step", "Step")
+                        .WithMany("StepProjects")
+                        .HasForeignKey("StepId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Payment");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Step");
+                });
+
+            modelBuilder.Entity("madera_api.Models.Module", b =>
+                {
+                    b.Navigation("ProposalModules");
+                });
+
+            modelBuilder.Entity("madera_api.Models.Payment", b =>
+                {
+                    b.Navigation("StepProjects");
+                });
+
+            modelBuilder.Entity("madera_api.Models.Project", b =>
+                {
+                    b.Navigation("StepProjects");
+                });
+
+            modelBuilder.Entity("madera_api.Models.Proposal", b =>
+                {
+                    b.Navigation("ProposalModules");
+                });
+
+            modelBuilder.Entity("madera_api.Models.Step", b =>
+                {
+                    b.Navigation("StepProjects");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,24 +7,19 @@ using System.Threading.Tasks;
 
 namespace madera_api.Models
 {
-    public class Project
+    public class Payment
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Column("name")]
+        [Column("IsPaid")]
         [Required]
-        [MaxLength(50)]
-        public string Name { get; set; }
+        public bool IsPaid { get; set; }
 
-        [Column("client")]
+        [Column("amount")]
         [Required]
-        public User Client { get; set; }
-
-        [Column("commercial")]
-        [Required]
-        public User Commercial { get; set; }
+        public float Amount { get; set; }
 
         public List<StepProject> StepProjects { get; set; }
     }

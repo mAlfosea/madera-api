@@ -23,14 +23,19 @@ namespace madera_api.Services
 
         public async Task<IList<ProjectDTO>> GetProjects()
         {
-            var projects = await _context.Project.Include(p => p.Client).ToListAsync();
+            var projects = await _context.Project
+                .Include(p => p.Client)
+                .Include(p => p.Commercial).ToListAsync();
+
             var projectsDTO = _mapper.Map<IList<ProjectDTO>>(projects);
             return projectsDTO.ToList();
         }
 
         public async Task<ProjectDTO> GetProjectByID(int Id)
         {
-            var project = await _context.Project.Include(p => p.Client).SingleOrDefaultAsync(i => i.Id == Id);
+            var project = await _context.Project
+                .Include(p => p.Client)
+                .Include(p => p.Commercial).SingleOrDefaultAsync(i => i.Id == Id);
 
             if (project == null)
             {
@@ -43,9 +48,12 @@ namespace madera_api.Services
         public async Task CreateProject(ProjectDTO projectDTO)
         {
             var project = _mapper.Map<Project>(projectDTO);
-            var client = await _context.User.FindAsync(projectDTO.Client.Id);
 
+            var client = await _context.User.FindAsync(projectDTO.Client.Id);
             project.Client = client;
+
+            var commercial = await _context.User.FindAsync(projectDTO.Commercial.Id);
+            project.Commercial = commercial;
 
             await _context.Project.AddAsync(project);
             await _context.SaveChangesAsync(true);

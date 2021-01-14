@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using madera_api.Data;
 
 namespace madera_api.Migrations
 {
     [DbContext(typeof(DbMainContext))]
-    partial class DbMainContextModelSnapshot : ModelSnapshot
+    [Migration("20210114163715_InitialSeed2")]
+    partial class InitialSeed2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,25 +235,18 @@ namespace madera_api.Migrations
 
             modelBuilder.Entity("madera_api.Models.ProposalModule", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("ModuleId")
+                    b.Property<int>("ProposalId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProposalId")
+                    b.Property<int>("ModuleId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProposalId", "ModuleId");
 
                     b.HasIndex("ModuleId");
-
-                    b.HasIndex("ProposalId");
 
                     b.ToTable("ProposalModule");
                 });
