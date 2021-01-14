@@ -18,7 +18,6 @@ namespace madera_api.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [Column("module")]
-        public ICollection<Module> Modules { get; set; }
+        public virtual ICollection<Module> Modules { get; set; }
     }
 }

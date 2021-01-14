@@ -30,7 +30,7 @@ namespace madera_api.Services
 
         public async Task<CollectionDTO> GetCollectionByID(int id)
         {
-            var collection = await _context.Collection.SingleOrDefaultAsync(i => i.Id == id);
+            var collection = await _context.Collection.Include(p => p.Modules).SingleOrDefaultAsync(i => i.Id == id);
 
             if (collection == null)
             {

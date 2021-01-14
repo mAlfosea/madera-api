@@ -18,8 +18,8 @@ namespace madera_api.DTO
 
         public string Unite { get; set; }
 
-        public ICollection<Collection> Collections { get; set; }
+        public virtual ICollection<CollectionDTO> Collections { get; set; }
 
-        public ICollection<Component> Components { get; set; }
+        public virtual ICollection<ComponentDTO> Components { get; set; }
     }
 }

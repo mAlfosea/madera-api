@@ -33,10 +33,8 @@ namespace madera_api.Models
         [MaxLength(100)]
         public string Unite { get; set; }
 
-        [Column("collection")]
-        public ICollection<Collection> Collections { get; set; }
+        public virtual ICollection<Collection> Collections { get; set; }
 
-        [Column("Component")]
-        public ICollection<Component> Components { get; set; }
+        public virtual ICollection<Component> Components { get; set; }
     }
 }

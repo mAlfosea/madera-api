@@ -10,6 +10,7 @@ using madera_api.Models;
 using madera_api.Services;
 using AutoMapper;
 using madera_api.DTO;
+using Newtonsoft.Json;
 
 namespace madera_api.Controllers
 {
@@ -46,7 +47,7 @@ namespace madera_api.Controllers
                 return NotFound();
             }
 
-            return collection;
+            return Ok(collection);
         }
 
         // PUT: api/Collection/5

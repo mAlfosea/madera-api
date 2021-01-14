@@ -10,8 +10,8 @@ using madera_api.Data;
 namespace madera_api.Migrations
 {
     [DbContext(typeof(DbMainContext))]
-    [Migration("20210110224540_AddCollectionDbSet")]
-    partial class AddCollectionDbSet
+    [Migration("20210114132717_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,18 @@ namespace madera_api.Migrations
                     b.HasIndex("ModulesId");
 
                     b.ToTable("CollectionModule");
+
+                    b.HasData(
+                        new
+                        {
+                            CollectionsId = 1,
+                            ModulesId = 1
+                        },
+                        new
+                        {
+                            CollectionsId = 1,
+                            ModulesId = 2
+                        });
                 });
 
             modelBuilder.Entity("ComponentModule", b =>
@@ -49,6 +61,23 @@ namespace madera_api.Migrations
                     b.HasIndex("ModulesId");
 
                     b.ToTable("ComponentModule");
+
+                    b.HasData(
+                        new
+                        {
+                            ComponentsId = 1,
+                            ModulesId = 1
+                        },
+                        new
+                        {
+                            ComponentsId = 2,
+                            ModulesId = 1
+                        },
+                        new
+                        {
+                            ComponentsId = 1,
+                            ModulesId = 2
+                        });
                 });
 
             modelBuilder.Entity("madera_api.Models.Collection", b =>
@@ -66,7 +95,19 @@ namespace madera_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collection");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Printemps"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Eté"
+                        });
                 });
 
             modelBuilder.Entity("madera_api.Models.Component", b =>
@@ -107,7 +148,27 @@ namespace madera_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Components");
+                    b.ToTable("Component");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Vis",
+                            Nature = "Vis",
+                            Price = 15.0,
+                            Trait = "Fer",
+                            Unite = "Kg"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Boulon",
+                            Nature = "Boulon",
+                            Price = 8.0,
+                            Trait = "Fer",
+                            Unite = "Kg"
+                        });
                 });
 
             modelBuilder.Entity("madera_api.Models.Module", b =>
@@ -143,7 +204,25 @@ namespace madera_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Modules");
+                    b.ToTable("Module");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Toit en bois d'Erable",
+                            Nature = "Toit",
+                            Trait = "Bois",
+                            Unite = "M²"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Mur en bois d'Erable",
+                            Nature = "Mur",
+                            Trait = "Bois",
+                            Unite = "M²"
+                        });
                 });
 
             modelBuilder.Entity("madera_api.Models.Project", b =>
@@ -171,7 +250,7 @@ namespace madera_api.Migrations
 
                     b.HasIndex("CommercialId");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Project");
                 });
 
             modelBuilder.Entity("madera_api.Models.User", b =>
@@ -220,7 +299,31 @@ namespace madera_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Civility = 1,
+                            Email = "francis@madera.fr",
+                            FirstName = "Francis",
+                            LastName = "Client",
+                            Password = "1234",
+                            Phone = "",
+                            Role = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Civility = 1,
+                            Email = "roger@madera.fr",
+                            FirstName = "Roger",
+                            LastName = "Commercial",
+                            Password = "1234",
+                            Phone = "",
+                            Role = 2
+                        });
                 });
 
             modelBuilder.Entity("CollectionModule", b =>

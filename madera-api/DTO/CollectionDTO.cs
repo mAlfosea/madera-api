@@ -12,6 +12,6 @@ namespace madera_api.DTO
 
         public string Name { get; set; }
 
-        public ICollection<Module> Modules { get; set; }
+        public virtual ICollection<ModuleDTO> Modules { get; set; }
     }
 }
