@@ -21,5 +21,7 @@ namespace madera_api.DTO
         public virtual ICollection<CollectionDTO> Collections { get; set; }
 
         public virtual ICollection<ComponentDTO> Components { get; set; }
+
+        public List<ProposalModuleDTO> ProposalModules { get; set; }
     }
 }

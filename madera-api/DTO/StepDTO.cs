@@ -1,20 +1,17 @@
-﻿using madera_api.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace madera_api.DTO
 {
-    public class ProjectDTO
+    public class StepDTO
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Label { get; set; }
 
-        public UserDTO Client { get; set; }
-
-        public UserDTO Commercial { get; set; }
+        public int Percent { get; set; }
 
         public List<StepProjectDTO> StepProjects { get; set; }
     }

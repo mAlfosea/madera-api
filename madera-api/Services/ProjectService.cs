@@ -25,7 +25,9 @@ namespace madera_api.Services
         {
             var projects = await _context.Project
                 .Include(p => p.Client)
-                .Include(p => p.Commercial).ToListAsync();
+                .Include(p => p.Commercial)
+                .Include(p => p.StepProjects).ThenInclude(sp => sp.Payment)
+                .Include(p => p.StepProjects).ThenInclude(sp => sp.Step).ToListAsync();
 
             var projectsDTO = _mapper.Map<IList<ProjectDTO>>(projects);
             return projectsDTO.ToList();

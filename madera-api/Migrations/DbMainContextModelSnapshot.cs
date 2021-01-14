@@ -345,30 +345,6 @@ namespace madera_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Civility = 1,
-                            Email = "francis@madera.fr",
-                            FirstName = "Francis",
-                            LastName = "Client",
-                            Password = "1234",
-                            Phone = "",
-                            Role = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Civility = 1,
-                            Email = "roger@madera.fr",
-                            FirstName = "Roger",
-                            LastName = "Commercial",
-                            Password = "1234",
-                            Phone = "",
-                            Role = 2
-                        });
                 });
 
             modelBuilder.Entity("CollectionModule", b =>
