@@ -37,6 +37,7 @@ namespace madera_api
             services.AddDbContext<DbMainContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("dbMaderaContext")));
             services.AddControllers();
 
+            services.AddScoped<IModuleService, ModuleService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ICollectionService, CollectionService>();

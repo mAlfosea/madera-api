@@ -19,7 +19,5 @@ namespace madera_api.DTO
         public string Unite { get; set; }
 
         public double Price { get; set; }
-
-        public ICollection<Module> Modules { get; set; }
     }
 }
