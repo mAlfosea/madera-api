@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using madera_api.Data;
-using madera_api.DTO;
-using madera_api.Models;
+using madera_erp_api.Data;
+using madera_erp_api.DTO;
+using madera_erp_api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace madera_api.Services
+namespace madera_erp_api.Services
 {
     public class UserService : IUserService
     {
@@ -45,12 +45,14 @@ namespace madera_api.Services
         {
             var user = _mapper.Map<User>(userDTO);
             user.Password = "1234";
+            user.IdErp = Guid.NewGuid().ToString();
 
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync(true);
 
             _mapper.Map(user, userDTO);
 
+            // TODO : add behavior on save failure.
             BrokerProducer.publishMessage(userDTO);
         }
 
