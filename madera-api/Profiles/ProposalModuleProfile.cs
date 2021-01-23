@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace madera_api.Profiles
 {
-    public class ProposalModule : Profile
+    public class ProposalModuleProfile : Profile
     {
-        public ProposalModule()
+        public ProposalModuleProfile()
         {
             CreateMap<ProposalModule, ProposalModuleDTO>();
-            CreateMap<ProposalModuleDTO, ProposalModule>();
+            CreateMap<ProposalModuleDTO, ProposalModule>()
+                .ForMember(dest => dest.Module, act => act.Ignore())
+                .ForMember(dest => dest.Proposal, act => act.Ignore());
         }
     }
 }

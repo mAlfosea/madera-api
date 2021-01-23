@@ -19,21 +19,19 @@ namespace madera_api.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [Column("project")]        
-        [Required]
+        public int ProjectId { get; set; }
+
         public Project Project { get; set; }
 
-        [Column("commercial")]
-        [Required]
+        public int CommercialId { get; set; }
+
         public User Commercial { get; set; }
 
         [Column("creation-date")]
         [Timestamp]
-        [Required]
         public byte[] CreationDate { get; set; }
 
         [Column("status")]
-        [Required]
         public ProposalEnum Status { get; set; }
 
         public List<ProposalModule> ProposalModules { get; set; }

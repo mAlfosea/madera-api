@@ -23,7 +23,7 @@ namespace madera_api.Services
 
         public async Task<IList<CollectionDTO>> GetCollections()
         {
-            var collections = await _context.Collection.ToListAsync();
+            var collections = await _context.Collection.Include(p => p.Modules).ThenInclude(m => m.Components).ToListAsync();
             var CollectionsDTO = _mapper.Map<IList<CollectionDTO>>(collections);
             return CollectionsDTO.ToList();
         }

@@ -199,12 +199,11 @@ namespace madera_api.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("CommercialId")
+                    b.Property<int>("CommercialId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("CreationDate")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion")
                         .HasColumnName("creation-date");
@@ -215,7 +214,7 @@ namespace madera_api.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("name");
 
-                    b.Property<int?>("ProjectId")
+                    b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -396,11 +395,15 @@ namespace madera_api.Migrations
                 {
                     b.HasOne("madera_api.Models.User", "Commercial")
                         .WithMany()
-                        .HasForeignKey("CommercialId");
+                        .HasForeignKey("CommercialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("madera_api.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Commercial");
 

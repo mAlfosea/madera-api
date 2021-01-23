@@ -12,7 +12,11 @@ namespace madera_api.DTO
 
         public string Name { get; set; }
 
+        public int ProjectId { get; set; }
+
         public ProjectDTO Project { get; set; }
+
+        public int CommercialId { get; set; }
 
         public UserDTO Commercial { get; set; }
 

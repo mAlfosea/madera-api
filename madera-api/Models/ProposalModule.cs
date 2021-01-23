@@ -17,7 +17,7 @@ namespace madera_api.Models
         public Proposal Proposal { get; set; }
 
         public int ModuleId { get; set; }
-        public Module Module { get; set; }
+        public Module Module { get; set; } = null;
 
         public int Quantity { get; set; }
     }

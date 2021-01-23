@@ -182,9 +182,9 @@ namespace madera_api.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ProjectId = table.Column<int>(type: "int", nullable: true),
-                    CommercialId = table.Column<int>(type: "int", nullable: true),
-                    creationdate = table.Column<byte[]>(name: "creation-date", type: "rowversion", rowVersion: true, nullable: false),
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
+                    CommercialId = table.Column<int>(type: "int", nullable: false),
+                    creationdate = table.Column<byte[]>(name: "creation-date", type: "rowversion", rowVersion: true, nullable: true),
                     status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -195,13 +195,13 @@ namespace madera_api.Migrations
                         column: x => x.ProjectId,
                         principalTable: "Project",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Proposal_User_CommercialId",
                         column: x => x.CommercialId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

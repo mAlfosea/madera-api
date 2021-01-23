@@ -32,12 +32,14 @@ namespace madera_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<DbMainContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("dbMaderaContext")));
             services.AddControllers();
 
             services.AddScoped<IModuleService, ModuleService>();
+            services.AddScoped<IProposalService, ProposalService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ICollectionService, CollectionService>();
@@ -57,6 +59,12 @@ namespace madera_api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
 
             app.UseAuthorization();
 
