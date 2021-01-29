@@ -14,7 +14,7 @@ namespace madera_api.Services
 
         public Task CreateProposal(ProposalDTO proposalDTO);
 
-        public Task<ProposalDTO> UpdateProposal(int id, ProposalDTO proposalDTO);
+        public Task<ProposalDTO> UpdateProposal(ProposalDTO proposalDTO);
 
         public Task<ProposalDTO> DeleteProposal(int proposalID);
     }

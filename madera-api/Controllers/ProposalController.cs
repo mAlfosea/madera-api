@@ -51,29 +51,35 @@ namespace madera_api.Controllers
         }
 
         // PUT: api/Proposal/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProposal(int id, ProposalDTO proposal)
-        {
-            if (id != proposal.Id)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutProposal(int id, ProposalDTO proposal)
+        //{
+        //    if (id != proposal.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var updatedProposal = await _proposalService.UpdateProposal(id, proposal);
+        //    var updatedProposal = await _proposalService.UpdateProposal(id, proposal);
 
-            if (updatedProposal == null)
-            {
-                return NotFound();
-            }
+        //    if (updatedProposal == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         // POST: api/Proposal
         [HttpPost]
         public async Task<ActionResult<ProposalDTO>> PostProposal(ProposalDTO proposalDTO)
         {
-            await _proposalService.CreateProposal(proposalDTO);
+            if (proposalDTO.Id != 0)
+            {
+                await _proposalService.UpdateProposal(proposalDTO);
+            } else
+            {
+                await _proposalService.CreateProposal(proposalDTO);
+            }
 
             return proposalDTO;
         }
