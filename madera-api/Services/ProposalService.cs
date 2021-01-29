@@ -31,7 +31,7 @@ namespace madera_api.Services
 
         public async Task<ProposalDTO> GetProposalByID(int Id)
         {
-            var proposal = await _context.Proposal.SingleOrDefaultAsync(i => i.Id == Id);
+            var proposal = await _context.Proposal.Include(p => p.ProposalModules).SingleOrDefaultAsync(i => i.Id == Id);
 
             if (proposal == null)
             {

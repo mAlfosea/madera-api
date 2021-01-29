@@ -27,6 +27,8 @@ namespace madera_api.Models
 
         public User Commercial { get; set; }
 
+        public int CollectionId { get; set; }
+
         [Column("creation-date")]
         [Timestamp]
         public byte[] CreationDate { get; set; }

@@ -41,10 +41,13 @@ namespace BrokerErp
             var userString = Encoding.UTF8.GetString(userByte);
 
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:3000/api-erp/User");
+            client.BaseAddress = new Uri("https://localhost:44349/api-erp/User");
+
+            var user = JsonConvert.DeserializeObject(userString);
+            var userJson = JsonConvert.SerializeObject(user);
 
             //call web api with the validated payment
-            var response = await client.PostAsync(client.BaseAddress, new StringContent(userString, Encoding.UTF8, "application/json"));
+            var response = await client.PostAsync(client.BaseAddress, new StringContent(userJson, Encoding.UTF8, "application/json"));
 
             if (response != null)
             {
