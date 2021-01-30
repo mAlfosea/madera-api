@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using BrokerErp.DTO;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -39,12 +40,19 @@ namespace BrokerErp
         static private async void PostcreateUser(byte[] userByte)
         {
             var userString = Encoding.UTF8.GetString(userByte);
+            var user = JsonConvert.DeserializeObject<UserDTO>(userString);
+
+            user.Id = null;
+
+
 
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:3000/api-erp/User");
+            client.BaseAddress = new Uri("https://localhost:44349/api-erp/User");
+
+            Console.WriteLine(JsonConvert.SerializeObject(userString));
 
             //call web api with the validated payment
-            var response = await client.PostAsync(client.BaseAddress, new StringContent(userString, Encoding.UTF8, "application/json"));
+            var response = await client.PostAsync(client.BaseAddress, new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json"));
 
             if (response != null)
             {

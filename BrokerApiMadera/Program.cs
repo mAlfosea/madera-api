@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using BrokerApiMadera.DTO;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -40,11 +41,18 @@ namespace BrokerApiMadera
         {
             var userString = Encoding.UTF8.GetString(userByte);
 
+            var user = JsonConvert.DeserializeObject<UserDTO>(userString);
+
+            user.Id = null;
+
+            Console.WriteLine(JsonConvert.SerializeObject(user));
+
+
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:3000/api/User");
+            client.BaseAddress = new Uri("http://localhost:5001/api/User");
 
             //call web api with the validated payment
-            var response = await client.PostAsync(client.BaseAddress, new StringContent(userString, Encoding.UTF8, "application/json"));
+            var response = await client.PostAsync(client.BaseAddress, new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json"));
 
             if (response != null)
             {

@@ -48,12 +48,20 @@ namespace madera_erp_api.Services
             user.IdErp = Guid.NewGuid().ToString();
 
             await _context.User.AddAsync(user);
-            await _context.SaveChangesAsync(true);
+            try
+            {
+
+                await _context.SaveChangesAsync(true);
+            }
+            catch (Exception err)
+            {
+                var test = err;
+            }
 
             _mapper.Map(user, userDTO);
 
             // TODO : add behavior on save failure.
-            BrokerProducer.publishMessage(userDTO);
+            /*BrokerProducer.publishMessage(userDTO);*/
         }
 
         public async Task<UserDTO> UpdateUser(int id, UserDTO userDTO)

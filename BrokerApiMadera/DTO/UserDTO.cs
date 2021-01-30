@@ -1,10 +1,6 @@
-﻿using madera_erp_api.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BrokerApiMadera.Enums;
 
-namespace madera_erp_api.DTO
+namespace BrokerApiMadera.DTO
 {
     public class UserDTO
     {

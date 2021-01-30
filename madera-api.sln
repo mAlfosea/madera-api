@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "madera-api", "madera-api\ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "madera-erp-api", "madera-erp-api\madera-erp-api.csproj", "{0F5B67E1-8339-4BE3-8081-EE2D345F2889}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokerErp", "BrokerErp\BrokerErp.csproj", "{EC0AF83C-4783-49C2-A642-BB74345B3D6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokerErp", "BrokerErp\BrokerErp.csproj", "{EC0AF83C-4783-49C2-A642-BB74345B3D6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokerApiMadera", "BrokerApiMadera\BrokerApiMadera.csproj", "{B87655E4-32FA-49D3-8455-E3710EBA1954}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokerApiMadera", "BrokerApiMadera\BrokerApiMadera.csproj", "{B87655E4-32FA-49D3-8455-E3710EBA1954}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
