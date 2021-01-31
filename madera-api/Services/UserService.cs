@@ -67,6 +67,8 @@ namespace madera_api.Services
 
             await _context.SaveChangesAsync(true);
 
+            BrokerProducer.publishMessage(userDTO);
+
             return _mapper.Map<UserDTO>(user);
         }
 
@@ -80,9 +82,58 @@ namespace madera_api.Services
             }
 
             _context.User.Remove(user);
+
+            await _context.SaveChangesAsync(true);
+
+            BrokerProducer.publishMessage(_mapper.Map<UserDTO>(user));
+
+            return _mapper.Map<UserDTO>(user);
+        }
+
+        public async Task SynchCreateUser(UserDTO userDTO)
+        {
+            var user = _mapper.Map<User>(userDTO);
+
+            await _context.User.AddAsync(user);
+
+            await _context.SaveChangesAsync(true);
+
+            _mapper.Map(user, userDTO);
+
+        }
+
+        public async Task<UserDTO> SynchUpdateUser(int id, UserDTO userDTO)
+        {
+            var user = await _context.User.FindAsync(id);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            _mapper.Map(userDTO, user);
+
             await _context.SaveChangesAsync(true);
 
             return _mapper.Map<UserDTO>(user);
         }
+
+        public async Task<UserDTO> SynchDeleteUser(int userID)
+        {
+            var user = await _context.User.FindAsync(userID);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            _context.User.Remove(user);
+
+            await _context.SaveChangesAsync(true);
+
+            return _mapper.Map<UserDTO>(user);
+        }
+
+
     }
 }

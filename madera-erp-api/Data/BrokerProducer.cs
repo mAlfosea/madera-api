@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace madera_erp_api.Data
 {
-    static public class BrokerProducer
+    public class BrokerProducer
     {
-        public static void publishMessage(UserDTO userDto)
+       static public void publishMessage(UserDTO userDto)
         {
             //borker queue creation
             var factory = new RabbitMQ.Client.ConnectionFactory

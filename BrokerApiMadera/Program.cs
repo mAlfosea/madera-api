@@ -43,13 +43,13 @@ namespace BrokerApiMadera
 
             var user = JsonConvert.DeserializeObject<UserDTO>(userString);
 
-            user.Id = null;
+            user.Id = 0;
 
             Console.WriteLine(JsonConvert.SerializeObject(user));
 
 
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:5001/api/User");
+            client.BaseAddress = new Uri("http://localhost:5001/api/UserSynch");
 
             //call web api with the validated payment
             var response = await client.PostAsync(client.BaseAddress, new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json"));

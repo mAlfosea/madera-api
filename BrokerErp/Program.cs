@@ -40,14 +40,13 @@ namespace BrokerErp
         static private async void PostcreateUser(byte[] userByte)
         {
             var userString = Encoding.UTF8.GetString(userByte);
+
             var user = JsonConvert.DeserializeObject<UserDTO>(userString);
 
             user.Id = null;
 
-
-
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44349/api-erp/User");
+            client.BaseAddress = new Uri("https://localhost:44349/api-erp/UserSynch");
 
             Console.WriteLine(JsonConvert.SerializeObject(userString));
 

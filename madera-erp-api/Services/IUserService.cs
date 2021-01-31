@@ -18,5 +18,13 @@ namespace madera_erp_api.Services
         public Task<UserDTO> UpdateUser(int id, UserDTO user);
 
         public Task<UserDTO> DeleteUser(int userID);
+
+        public Task SynchCreateUser(UserDTO userDTO);
+
+        public Task<UserDTO> SynchUpdateUser(int id, UserDTO user);
+
+        public Task<UserDTO> SynchDeleteUser(int userID);
+
+
     }
 }

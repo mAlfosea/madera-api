@@ -32,7 +32,7 @@ namespace madera_erp_api
             services.AddControllers();
 
             services.AddScoped<IUserService, UserService>();
-               services.AddScoped<IDataService, DataService>();
+            services.AddScoped<IDataService, DataService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }

@@ -44,24 +44,19 @@ namespace madera_erp_api.Services
         public async Task CreateUser(UserDTO userDTO)
         {
             var user = _mapper.Map<User>(userDTO);
+
             user.Password = "1234";
+
             user.IdErp = Guid.NewGuid().ToString();
 
             await _context.User.AddAsync(user);
-            try
-            {
 
-                await _context.SaveChangesAsync(true);
-            }
-            catch (Exception err)
-            {
-                var test = err;
-            }
+            await _context.SaveChangesAsync(true);
 
             _mapper.Map(user, userDTO);
 
             // TODO : add behavior on save failure.
-            /*BrokerProducer.publishMessage(userDTO);*/
+            BrokerProducer.publishMessage(userDTO);
         }
 
         public async Task<UserDTO> UpdateUser(int id, UserDTO userDTO)
@@ -77,6 +72,9 @@ namespace madera_erp_api.Services
 
             await _context.SaveChangesAsync(true);
 
+            // TODO : add behavior on save failure.
+            BrokerProducer.publishMessage(userDTO);
+
             return _mapper.Map<UserDTO>(user);
         }
 
@@ -90,6 +88,58 @@ namespace madera_erp_api.Services
             }
 
             _context.User.Remove(user);
+
+            await _context.SaveChangesAsync(true);
+
+            var userDto = _mapper.Map<UserDTO>(user);
+
+            // TODO : add behavior on save failure.
+            BrokerProducer.publishMessage(userDto);
+
+            return _mapper.Map<UserDTO>(user);
+        }
+
+        public async Task SynchCreateUser(UserDTO userDTO)
+        {
+            var user = _mapper.Map<User>(userDTO);
+
+            user.IdErp = Guid.NewGuid().ToString();
+
+            await _context.User.AddAsync(user);
+
+            await _context.SaveChangesAsync(true);
+
+            _mapper.Map(user, userDTO);
+
+        }
+
+        public async Task<UserDTO> SynchUpdateUser(int id, UserDTO userDTO)
+        {
+            var user = await _context.User.FindAsync(id);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            _mapper.Map(userDTO, user);
+
+            await _context.SaveChangesAsync(true);
+
+            return _mapper.Map<UserDTO>(user);
+        }
+
+        public async Task<UserDTO> SynchDeleteUser(int userID)
+        {
+            var user = await _context.User.FindAsync(userID);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            _context.User.Remove(user);
+
             await _context.SaveChangesAsync(true);
 
             return _mapper.Map<UserDTO>(user);
