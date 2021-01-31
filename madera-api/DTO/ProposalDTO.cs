@@ -20,6 +20,8 @@ namespace madera_api.DTO
 
         public UserDTO Commercial { get; set; }
 
+        public int CollectionId { get; set; }
+
         public byte[] CreationDate { get; set; }
 
         public ProposalEnum Status { get; set; }
