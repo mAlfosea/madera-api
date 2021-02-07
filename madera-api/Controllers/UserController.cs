@@ -50,6 +50,21 @@ namespace madera_api.Controllers
             return user;
         }
 
+        // GET: api/User/jean
+        [Route("find")]
+        [HttpGet]
+        public async Task<ActionResult<IList<UserDTO>>> GetUserByName([FromQuery] string userName)
+        {
+            var user = await _userService.GetUserByName(userName);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user.ToList();
+        }
+
         // PUT: api/User/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, UserDTO user)

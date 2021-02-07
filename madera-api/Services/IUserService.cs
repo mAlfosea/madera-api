@@ -12,6 +12,8 @@ namespace madera_api.Services
     {
         public Task<IList<UserDTO>> GetUsers();
 
+        public Task<IList<UserDTO>> GetUserByName(string userName);
+
         public Task<UserDTO> GetUserByID(int userID);
 
         public Task CreateUser(UserDTO userDTO);

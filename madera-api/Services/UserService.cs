@@ -41,6 +41,23 @@ namespace madera_api.Services
             return _mapper.Map<UserDTO>(user);
         }
 
+        public async Task<IList<UserDTO>> GetUserByName(string userName)
+        {
+            var users = await _context.User
+                .Where(user => user.LastName.Contains(userName) || 
+                user.FirstName.Contains(userName))
+                .ToListAsync();
+
+            if (users == null)
+            {
+                return null;
+            }
+
+            var usersDTO = _mapper.Map<IList<UserDTO>>(users);
+
+            return usersDTO.ToList();
+        }
+
         public async Task CreateUser(UserDTO userDTO)
         {
             var user = _mapper.Map<User>(userDTO);
