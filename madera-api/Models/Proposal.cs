@@ -30,8 +30,7 @@ namespace madera_api.Models
         public int CollectionId { get; set; }
 
         [Column("creation-date")]
-        [Timestamp]
-        public byte[] CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
         [Column("status")]
         public ProposalEnum Status { get; set; }

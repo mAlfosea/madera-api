@@ -22,7 +22,7 @@ namespace madera_api.DTO
 
         public int CollectionId { get; set; }
 
-        public byte[] CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public ProposalEnum Status { get; set; }
 

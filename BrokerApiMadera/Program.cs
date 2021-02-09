@@ -33,6 +33,7 @@ namespace BrokerApiMadera
                 PostcreateUser(body);
             };
             channel.BasicConsume("user-api", true, consumer);
+            Console.WriteLine("------------- Consummer Madera connected -------------");
 
             Console.ReadLine();
         }
@@ -45,8 +46,8 @@ namespace BrokerApiMadera
 
             user.Id = 0;
 
+            Console.WriteLine("Un nouvel utilisateur a été crée dans l'Erp");
             Console.WriteLine(JsonConvert.SerializeObject(user));
-
 
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("http://localhost:5001/api/UserSynch");

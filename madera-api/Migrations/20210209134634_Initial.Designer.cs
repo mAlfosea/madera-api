@@ -10,8 +10,8 @@ using madera_api.Data;
 namespace madera_api.Migrations
 {
     [DbContext(typeof(DbMainContext))]
-    [Migration("20210129130353_AddCollectionIdInProposal")]
-    partial class AddCollectionIdInProposal
+    [Migration("20210209134634_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -207,10 +207,8 @@ namespace madera_api.Migrations
                     b.Property<int>("CommercialId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("CreationDate")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion")
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2")
                         .HasColumnName("creation-date");
 
                     b.Property<string>("Name")

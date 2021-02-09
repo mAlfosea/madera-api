@@ -9,6 +9,7 @@ namespace madera_erp_api.DTO
     public class UserDTO
     {
         public int? Id { get; set; }
+        public string IdErp { get; set; }
 
         public string FirstName { get; set; }
 

@@ -184,7 +184,8 @@ namespace madera_api.Migrations
                     name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     CommercialId = table.Column<int>(type: "int", nullable: false),
-                    creationdate = table.Column<byte[]>(name: "creation-date", type: "rowversion", rowVersion: true, nullable: true),
+                    CollectionId = table.Column<int>(type: "int", nullable: false),
+                    creationdate = table.Column<DateTime>(name: "creation-date", type: "datetime2", nullable: false),
                     status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

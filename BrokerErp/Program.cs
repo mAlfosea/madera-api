@@ -34,6 +34,7 @@ namespace BrokerErp
             };
             channel.BasicConsume("user-erp", true, consumer);
 
+            Console.WriteLine("------------- Consummer ERP connected -------------");
             Console.ReadLine();
         }
 
@@ -48,6 +49,7 @@ namespace BrokerErp
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:44349/api-erp/UserSynch");
 
+            Console.WriteLine("Un nouvel utilisateur a été crée dans l'app Madera");
             Console.WriteLine(JsonConvert.SerializeObject(userString));
 
             //call web api with the validated payment

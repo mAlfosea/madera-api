@@ -205,10 +205,8 @@ namespace madera_api.Migrations
                     b.Property<int>("CommercialId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("CreationDate")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion")
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2")
                         .HasColumnName("creation-date");
 
                     b.Property<string>("Name")

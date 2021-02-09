@@ -60,6 +60,42 @@ namespace madera_api.Services
             await _context.Project.AddAsync(project);
             await _context.SaveChangesAsync(true);
 
+
+            var steps = new[]
+            {
+                new Step
+                {
+                    Label = "Phase de proposition",
+                    Percent = 0
+                }
+            };
+
+            await _context.Step.AddAsync(steps[0]);
+
+            var payments = new[]
+            {
+                new Payment
+                {
+                    IsPaid = true,
+                    Amount = 0
+                }
+            };
+
+            await _context.Payment.AddAsync(payments[0]);
+
+            var stepProjects = new[]
+            {
+                new StepProject
+                {
+                    Project = project,
+                    Payment = payments[0],
+                    Step = steps[0]
+                }
+            };
+
+            await _context.StepProject.AddAsync(stepProjects[0]);
+            await _context.SaveChangesAsync(true);
+
             _mapper.Map(project, projectDTO);
         }
 

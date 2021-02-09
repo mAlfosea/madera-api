@@ -44,6 +44,7 @@ namespace madera_api.Services
         public async Task CreateProposal(ProposalDTO proposalDTO)
         {
             var proposalDTOTemp = proposalDTO;
+            proposalDTOTemp.CreationDate = DateTime.Now;
             var proposalModuleDTO = proposalDTO.ProposalModules;
             proposalDTOTemp.ProposalModules = null;
 
